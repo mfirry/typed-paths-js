@@ -5,7 +5,7 @@ declare module "paths-js/rectangle" {
   }
 
   declare module.exports: {
-    Rectangle: Rectangle
+    Rectangle: typeof Rectangle
   }
 
 }

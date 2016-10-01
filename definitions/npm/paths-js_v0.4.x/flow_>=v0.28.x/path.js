@@ -1,3 +1,4 @@
+// @flow
 declare module "paths-js/path" {
 
   declare type Point = [number, number];
@@ -20,5 +21,8 @@ declare module "paths-js/path" {
   }
 
   declare module.exports: {
-    Path: Path,
-};
+    Path: typeof Path,
+    Point: Point,
+  };
+
+}
