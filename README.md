@@ -91,3 +91,78 @@ A semi-regular polygon has a `center` point and `radii` the distances of each po
 
 Following these two examples we can define more polygons, such as `Rectangle`s and `Curved Rectangle`s, `Bezier` curves, circular `Sector`s and `Connector`s.
 
+### High level API: Graphs
+
+A first example of high level api is a simple bar graph.
+
+  ```js
+  var bar = Bar({
+    data: [
+      [
+        { name: 'Italy', population: 59859996 },
+        { name: 'Spain', population: 46704314 },
+        { name: 'France', population: 65806000 },
+        { name: 'Romania', population: 20121641 },
+        { name: 'Greece', population: 10815197 }
+      ],
+      [
+        { name: 'Zambia', population: 14580290 },
+        { name: 'Cameroon', population: 20386799 },
+        { name: 'Nigeria', population: 173615000 },
+        { name: 'Ethiopia', population: 86613986 },
+        { name: 'Ghana', population: 24658823 }
+      ]
+    ],
+    accessor: function(x) { return x.population; },
+    compute: {
+      color: function(i) { return somePalette[i]; }
+    },
+    width: 500,
+    height: 400,
+    gutter: 10,
+    max: 200000000,
+    min: 0
+  });
+  ```
+
+First thing to take into account is that our `Bar` type needs to be polymorphic, meaning you can build a `Bar` out of any different object types. In the example above we would have a `Country` type which might look like this:
+
+  ```js
+  type Country = {
+    name: string,
+    population: number,
+  };
+  ```
+
+Let's take a look at the declaration then:
+
+  ```js
+  declare class Bar<A> {
+    constructor(data: Array<Array<A>>, accessor: (a: A) => number,  width: number, height: number, gutter: number): Bar<A>;
+  }
+  ```
+
+Give the above declaration, we can use it this way:
+
+  ```js
+  const data: Array<Array<Country>> =[
+      [
+        { name: 'Italy', population: 59859996 },
+        { name: 'Spain', population: 46704314 },
+        { name: 'France', population: 65806000 },
+        { name: 'Romania', population: 20121641 },
+        { name: 'Greece', population: 10815197 }
+      ],
+      [
+        { name: 'Zambia', population: 14580290 },
+        { name: 'Cameroon', population: 20386799 },
+        { name: 'Nigeria', population: 173615000 },
+        { name: 'Ethiopia', population: 86613986 },
+        { name: 'Ghana', population: 24658823 }
+      ]
+    ];
+
+  function accessor(c: Country) { return c.population; };
+
+  const bar: Bar<Country> = new Bar(data, accessor, 2, 4, 1);
+  ```
