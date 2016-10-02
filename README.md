@@ -93,7 +93,7 @@ Following these two examples we can define more polygons, such as `Rectangle`s a
 
 ### High level API: Graphs
 
-A first example of high level api is a simple bar graph.
+A first example of high level api is a simple bar graph. Let's see `paths-js` example of such a graph:
 
   ```js
   var bar = Bar({
@@ -125,7 +125,7 @@ A first example of high level api is a simple bar graph.
   });
   ```
 
-First thing to take into account is that our `Bar` type needs to be polymorphic, meaning you can build a `Bar` out of any different object types. In the example above we would have a `Country` type which might look like this:
+First thing we can take into account is that our `Bar` type can be polymorphic, meaning you can build a `Bar` out of any object type. In the example above we would have a `Country` type which might look like this:
 
   ```js
   type Country = {
@@ -138,7 +138,7 @@ Let's take a look at the declaration then:
 
   ```js
   declare class Bar<A> {
-    constructor(data: Array<Array<A>>, accessor: (a: A) => number,  width: number, height: number, gutter: number): Bar<A>;
+    constructor(data: Array<Array<A>>, accessor?: (a: A) => number, width: number, height: number, max: number, min: number, gutter?: number): Bar<A>;
   }
   ```
 
@@ -164,5 +164,5 @@ Given the above declaration, we can use it this way:
 
   function accessor(c: Country) { return c.population; };
 
-  const bar: Bar<Country> = new Bar(data, accessor, 2, 4, 1);
+  const bar: Bar<Country> = new Bar(data, accessor, 500, 400, 200000000, 0, 10);
   ```
