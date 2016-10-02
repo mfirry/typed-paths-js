@@ -4,7 +4,4 @@ declare module "paths-js/polygon" {
     constructor(points: Array<Point>, closed?: boolean): Polygon;
   }
 
-  declare module.exports: {
-    Polygon: typeof Polygon
-  }
 }

@@ -21,8 +21,8 @@ declare module "paths-js/path" {
   }
 
   declare module.exports: {
-    Path: typeof Path,
     Point: Point,
+    Path: typeof Path,
   };
 
 }

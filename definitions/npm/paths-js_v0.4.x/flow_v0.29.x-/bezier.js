@@ -4,8 +4,4 @@ declare module "paths-js/curved-rectangle" {
     constructor(points: Array<Point>, tension: number): Bezier;
   }
 
-  declare module.exports: {
-    Bezier: Bezier
-  }
-
 }

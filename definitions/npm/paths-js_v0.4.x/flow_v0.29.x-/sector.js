@@ -4,8 +4,4 @@ declare module "paths-js/curved-rectangle" {
     constructor(center: Point, r: number, R: number, start: number, end: number): Sector;
   }
 
-  declare module.exports: {
-    Sector: Sector
-  }
-
 }

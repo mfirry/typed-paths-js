@@ -4,8 +4,4 @@ declare module "paths-js/rectangle" {
     constructor(left: Point, right: Point, top: Point, bottom: Point): Rectangle;
   }
 
-  declare module.exports: {
-    Rectangle: typeof Rectangle
-  }
-
 }
