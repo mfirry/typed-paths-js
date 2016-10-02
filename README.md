@@ -142,7 +142,7 @@ Let's take a look at the declaration then:
   }
   ```
 
-Give the above declaration, we can use it this way:
+Given the above declaration, we can use it this way:
 
   ```js
   const data: Array<Array<Country>> =[
