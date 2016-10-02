@@ -134,11 +134,18 @@ First thing we can take into account is that our `Bar` type can be polymorphic, 
   };
   ```
 
-Let's take a look at the declaration then:
+Let's take a look at the declaration then. Using an option object as a parameter helps us with optional properties.
 
   ```js
   declare class Bar<A> {
-    constructor(data: Array<Array<A>>, accessor?: (a: A) => number, width: number, height: number, max: number, min: number, gutter?: number): Bar<A>;
+    constructor(options:
+      { data: Array<Array<A>>,
+        accessor?: (a: A) => number,
+        width: number,
+        height: number,
+        max: number,
+        min: number,
+        gutter?: number }): Bar<A>;
   }
   ```
 
@@ -164,5 +171,7 @@ Given the above declaration, we can use it this way:
 
   function accessor(c: Country) { return c.population; };
 
-  const bar: Bar<Country> = new Bar(data, accessor, 500, 400, 200000000, 0, 10);
+  const options = {data: data, accessor: accessor, width: 1, height: 2, max: 3, min: 4, gutter: 5};
+
+  const bar: Bar<Country> = new Bar(options);
   ```
