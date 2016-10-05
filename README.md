@@ -175,3 +175,16 @@ Given the above declaration, we can use it this way:
 
   const bar: Bar<Country> = new Bar(options);
   ```
+
+  Similarly a `pie` can be defined like:
+
+  ```js
+  declare class Pie<A> {
+    constructor(options:
+      {| data: Array<A>,
+        accessor?: (a: A) => number,
+        center: Point,
+        r: number,
+        R: number |}): Pie<A>;
+  }
+  ```
