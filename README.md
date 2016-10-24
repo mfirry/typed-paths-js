@@ -15,9 +15,14 @@ A first example is the simple example of the use of paths-js [low level API](htt
 
 Note that `Path`s are immutable objects, so most of the functions on them will return a new one.
 
+Whenever we reason about geometric plotting and drawing we cannot but start by defining `point`s.
+Using Flow, a `Point` (in two-dimension) can be thought of a simple tuple:
+
+  `declare type Point = [number, number]`
+
 The definition of `Path` declares the `moveto` function with an easy-to-guess signature:
 
-  `function moveto(x: number, y: number): Path`
+  `function moveto(p: Point): Path`
 
 Same goes for `lineto`; while `vlineto` and `hlineto` would be like:
 
@@ -27,16 +32,11 @@ Following [flow-typed](https://github.com/flowtype/flow-typed) instructions one 
 
   ```js
   declare class Path {
-    lineto(x: number, y: number): Path;
+    lineto(p: Path): Path;
     hlineto(x: number): Path;
     vlineto(y: number): Path;
   }
   ```
-
-Whenever we reason about geometric plotting and drawing we cannot but start by defining `point`s.
-Using Flow, a `Point` (in two-dimension) can be thought of a simple tuple:
-
-  `declare type Point = [number, number]`
 
 ### Mid level API: Shapes
 
@@ -46,42 +46,42 @@ This part basically defines a few different shapes.
 ```
 A module for a shape defines a function that takes as input some geometric data and returns a shape object. Shape objects have the two properties path and centroid.
 ```
-Easy then! Let's give it a look then.
+Easy! Let's give it a look then.
 
 #### Shape
 
-A simple shape will then look like this:
+A simple shape might then look like this:
 
   ```js
   declare class Shape {
-    path: Path;
-    centroid: Point;
-  }
+  path: Path;
+  centroid: Point;
+}
   ```
 
 #### Polygon
 
-`Polygon` is the first kind of shapes. In js one would write something like this:
+`Polygon` is the first kind of shapes. In Javascript one would write something like this:
 
   ```js
   var points = [[1, 3], [2, 5], [3, 4], [2, 0]];
-  var polygon = Polygon({
-    points: points,
-    closed: true
-  });
+var polygon = Polygon({
+  points: points,
+  closed: true
+});
   ```
 
-Let's add our declaration:
+Let's add our types declaration:
 
   ```js
   declare class Polygon extends Shape {
-    constructor(points: Array<Point>, closed?: boolean): Polygon;
-  }
+  constructor(points: Array<Point>, closed?: boolean): Polygon;
+}
   ```
 
 #### Semi-regular polygon
 
-A semi-regular polygon has a `center` point and `radii` the distances of each point from the center:
+A semi-regular polygon has a `center` point and `radii`, the distances between each point and the center:
 
   ```js
   declare class SemiRegularPolygon extends Shape {
@@ -125,28 +125,28 @@ A first example of high level api is a simple bar graph. Let's see `paths-js` ex
   });
   ```
 
-First thing we can take into account is that our `Bar` type can be polymorphic, meaning you can build a `Bar` out of any object type. In the example above we would have a `Country` type which might look like this:
+First thing we can take into account is that our `Bar` type needs to be *polymorphic*, meaning you can build a `Bar` out of any object type. In the example above we would have a `Country` type which might look like this:
 
   ```js
-  type Country = {
-    name: string,
-    population: number,
-  };
+type Country = {
+  name: string,
+  population: number,
+};
   ```
 
 Let's take a look at the declaration then. Using an option object as a parameter helps us with optional properties.
 
   ```js
-  declare class Bar<A> {
-    constructor(options:
-      { data: Array<Array<A>>,
-        accessor?: (a: A) => number,
-        width: number,
-        height: number,
-        max: number,
-        min: number,
-        gutter?: number }): Bar<A>;
-  }
+declare class Bar<A> {
+  constructor(options:
+    { data: Array<Array<A>>,
+      accessor?: (a: A) => number,
+      width: number,
+      height: number,
+      max: number,
+      min: number,
+      gutter?: number }): Bar<A>;
+}
   ```
 
 Given the above declaration, we can use it this way:
